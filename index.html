@@ -4,25 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>森森天氣</title>
-    <link rel="icon" type="image/png" href="./icon-v2.png">
-    <link rel="apple-touch-icon" href="./icon-v2.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="./icon-v2.png">
+    <title>ZOO 氣象台：樹懶慢慢報</title>
+
+    <!-- 主視覺 Icon：樹懶抱雲 -->
+    <link rel="icon" type="image/svg+xml" href="logo.svg">
+    <link rel="apple-touch-icon" href="logo.svg">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --ac-green: #7DE1A9;
-            --ac-bg-pattern: #8FD8AF;
-            --ac-cream: #FFFEF2;
-            --ac-yellow: #F9F195;
-            --ac-brown: #796452;
-            --ac-blue: #4FB5D9;
-            --ac-dark: #58504A;
-            --ac-card-border: #E6E0C8;
+            --zoo-green: #8cd8a1;
+            --zoo-leaf: #7bc28c;
+            --zoo-cloud: #ffffff;
+            --zoo-brown: #6b5646;
+            --zoo-orange: #ffb86c;
+            --zoo-blue: #5ec8f2;
         }
 
         * {
@@ -34,24 +33,27 @@
 
         body {
             font-family: 'Zen Maru Gothic', sans-serif;
-            background-color: var(--ac-green);
-            /* 更細緻的斜紋背景 */
+            background-color: var(--zoo-green);
             background-image:
-                repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255, 255, 255, 0.2) 20px, rgba(255, 255, 255, 0.2) 40px);
+                repeating-linear-gradient(45deg,
+                    rgba(255, 255, 255, 0.15) 0px,
+                    rgba(255, 255, 255, 0.15) 10px,
+                    rgba(0, 0, 0, 0.03) 10px,
+                    rgba(0, 0, 0, 0.03) 20px);
             min-height: 100vh;
-            color: var(--ac-dark);
-            /* 防止 iOS 左右滑動 */
+            color: var(--zoo-brown);
             overflow-x: hidden;
             padding-bottom: 20px;
         }
 
-        /* 頂部狀態列 */
+        /* 標題區（像 Zootopia 城市牌） */
         .status-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 15px 20px;
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.35);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(10px);
             position: sticky;
             top: 0;
@@ -59,139 +61,118 @@
         }
 
         .location-pill {
-            background: var(--ac-yellow);
-            color: var(--ac-brown);
-            padding: 5px 15px;
+            background: var(--zoo-orange);
+            padding: 6px 18px;
             border-radius: 20px;
+            color: var(--zoo-brown);
             font-weight: 900;
-            font-size: 1.1rem;
-            transform: rotate(-2deg);
+            transform: rotate(-3deg);
             border: 2px solid white;
-            box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
         }
 
         .update-pill {
             font-size: 0.8rem;
-            color: white;
             background: rgba(0, 0, 0, 0.2);
-            padding: 4px 10px;
-            border-radius: 12px;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 14px;
         }
 
         .container {
             padding: 20px;
             max-width: 600px;
-            /* 限制在大手機寬度 */
             margin: 0 auto;
         }
 
-        /* === 核心：今日焦點卡片 === */
+        /* 今日主卡片 */
         .hero-card {
-            background: var(--ac-cream);
-            border-radius: 35px;
+            background: var(--zoo-leaf);
+            border-radius: 40px;
             padding: 30px 25px;
             text-align: center;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            border: 4px solid white;
-            margin-bottom: 25px;
+            border: 5px solid var(--zoo-cloud);
+            color: white;
+            margin-bottom: 30px;
             position: relative;
+            box-shadow: 0 10px 18px rgba(0, 0, 0, 0.15);
         }
 
-        /* 像動森的對話氣泡 */
         .hero-period {
             position: absolute;
-            top: -15px;
+            top: -18px;
             left: 50%;
             transform: translateX(-50%);
-            background: var(--ac-blue);
-            color: white;
-            padding: 5px 20px;
-            border-radius: 20px;
-            font-weight: bold;
+            background: var(--zoo-blue);
+            padding: 6px 22px;
+            border-radius: 22px;
+            font-weight: 900;
             border: 3px solid white;
-            box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
         }
 
         .hero-temp-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             margin: 15px 0;
         }
 
         .hero-icon {
-            font-size: 5rem;
-            filter: drop-shadow(0 4px 0 rgba(0, 0, 0, 0.1));
+            font-size: 5.5rem;
             animation: bounce 3s infinite;
         }
 
         @keyframes bounce {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-10px);
-            }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         .hero-temp {
             font-size: 4.5rem;
             font-weight: 900;
-            color: var(--ac-brown);
             line-height: 1;
         }
 
         .hero-desc {
-            font-size: 1.5rem;
-            color: #8A7B70;
-            margin-bottom: 20px;
-            font-weight: bold;
+            font-size: 1.4rem;
+            margin-top: 10px;
+            margin-bottom: 15px;
         }
 
-        /* === 上班族最愛的：快速建議區 === */
+        /* 建議卡片 */
         .advice-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
-            margin-top: 20px;
+            margin-top: 15px;
             padding-top: 20px;
-            border-top: 2px dashed #E0D8C0;
+            border-top: 2px dashed rgba(255, 255, 255, 0.5);
         }
 
         .advice-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.5);
-            padding: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 12px;
             border-radius: 20px;
+            color: var(--zoo-brown);
+            text-align: center;
         }
 
         .advice-icon {
             font-size: 2rem;
-            margin-bottom: 5px;
         }
 
         .advice-text {
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             font-weight: 900;
-            color: var(--ac-brown);
-            margin: 5px 0;
-            line-height: 1.2;
         }
 
-        /* === 稍後預報：橫向滑動區 === */
+        /* 稍後預報 */
         .section-title {
             font-size: 1.2rem;
-            color: white;
+            font-weight: 900;
             margin-bottom: 15px;
             margin-left: 10px;
-            font-weight: 900;
-            text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
+            color: white;
         }
 
         .scroll-container {
@@ -199,9 +180,7 @@
             overflow-x: auto;
             gap: 15px;
             padding-bottom: 10px;
-            /* 隱藏滾動條但保留功能 */
             scrollbar-width: none;
-            -ms-overflow-style: none;
         }
 
         .scroll-container::-webkit-scrollbar {
@@ -210,73 +189,74 @@
 
         .mini-card {
             min-width: 140px;
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 25px;
-            padding: 20px 15px;
-            text-align: center;
+            padding: 18px 15px;
             border: 3px solid white;
+            text-align: center;
             flex-shrink: 0;
-            /* 防止被擠壓 */
         }
 
         .mini-time {
-            background: var(--ac-green);
+            background: var(--zoo-green);
             color: white;
             padding: 3px 10px;
             border-radius: 10px;
             font-size: 0.8rem;
-            display: inline-block;
-            margin-bottom: 10px;
-            font-weight: bold;
+            margin-bottom: 8px;
         }
 
         .mini-icon {
             font-size: 2.5rem;
-            margin: 5px 0;
         }
 
         .mini-temp {
             font-size: 1.2rem;
             font-weight: 800;
-            color: var(--ac-dark);
+            margin-top: 5px;
+            color: var(--zoo-brown);
         }
 
         /* Loading 畫面 */
         .loading-screen {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--ac-green);
+            inset: 0;
+            background: var(--zoo-green);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 999;
         }
+
+        .loading-icon {
+            font-size: 4rem;
+            animation: bounce 2.5s infinite;
+        }
     </style>
 </head>
 
 <body>
+    <!-- Loading -->
     <div id="loading" class="loading-screen">
-        <div style="font-size: 4rem; animation: bounce 2s infinite;">☁️</div>
-        <p style="color: white; font-weight: bold; margin-top: 20px;">正在觀測雲的流動...</p>
+        <div class="loading-icon">🦥</div>
+        <p style="color:white; font-weight:900; margin-top:20px; font-size:1.2rem;">
+            樹懶 Flash 正在努力加速中…（但看起來不太快）
+        </p>
     </div>
+
+    <!-- Header -->
     <div class="status-bar">
-        <div class="location-pill">📍 臺中</div>
+        <div class="location-pill">🐾 動物城・台中分局</div>
         <div id="updateTime" class="update-pill">更新中...</div>
     </div>
 
-    <div class="container" id="mainContent" style="display: none;">
+    <div class="container" id="mainContent" style="display:none;">
 
-        <div id="heroCard">
-        </div>
+        <div id="heroCard"></div>
 
-        <h3 class="section-title">稍後預報</h3>
-        <div class="scroll-container" id="futureForecasts">
-        </div>
-
+        <h3 class="section-title">稍後預報（樹懶慢慢推送中）</h3>
+        <div class="scroll-container" id="futureForecasts"></div>
     </div>
 
     <script>
@@ -294,20 +274,22 @@
 
         function getAdvice(rainProb, maxTemp) {
             let rainIcon = "🌂";
-            let rainText = "不用帶傘";
+            let rainText = "今天安全，不太會淋濕～";
+
             if (parseInt(rainProb) > 30) {
                 rainIcon = "☂️";
-                rainText = "記得帶傘！";
+                rainText = "樹懶提醒：不想濕答答就帶傘喔～";
             }
 
             let clothIcon = "👕";
-            let clothText = "舒適穿搭";
+            let clothText = "氣溫剛剛好，舒服～";
+
             if (parseInt(maxTemp) >= 28) {
                 clothIcon = "🎽";
-                clothText = "短袖出發";
+                clothText = "兔子 Judy 說：短袖開跑！";
             } else if (parseInt(maxTemp) <= 20) {
                 clothIcon = "🧥";
-                clothText = "加件外套";
+                clothText = "樹懶建議：加件外套暖暖的～";
             }
 
             return { rainIcon, rainText, clothIcon, clothText };
@@ -327,100 +309,99 @@
             const current = forecasts[0];
             const others = forecasts.slice(1);
 
-            // 1. 渲染 Hero Card (主畫面)
             const advice = getAdvice(current.rain, current.maxTemp);
             const period = getTimePeriod(current.startTime);
             const avgTemp = Math.round((parseInt(current.maxTemp) + parseInt(current.minTemp)) / 2);
 
+            /* 主卡片 */
             document.getElementById('heroCard').innerHTML = `
-                        <div class="hero-card">
-                            <div class="hero-period">${period}</div>
-                            <div class="hero-temp-container">
-                                <div class="hero-icon">${getWeatherIcon(current.weather)}</div>
-                                <div class="hero-temp">${avgTemp}°</div>
-                            </div>
-                            <div class="hero-desc">${current.weather}</div>
-                            
-                            <div class="advice-grid">
-                                <div class="advice-item">
-                                    <div class="advice-icon">${advice.rainIcon}</div>
-                                    <div class="advice-text">${advice.rainText}</div>
-                                    <div style="font-size:0.7rem; color:#999">降雨率 ${current.rain}</div>
-                                </div>
-                                <div class="advice-item">
-                                    <div class="advice-icon">${advice.clothIcon}</div>
-                                    <div class="advice-text">${advice.clothText}</div>
-                                    <div style="font-size:0.7rem; color:#999">最高溫 ${current.maxTemp}°</div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
+                <div class="hero-card">
+                    <div class="hero-period">🐾 ${period}・森林都市氣象局</div>
 
-            // 2. 渲染稍後預報 (包含明天判斷)
+                    <div class="hero-temp-container">
+                        <div class="hero-icon">${getWeatherIcon(current.weather)}</div>
+                        <div class="hero-temp">${avgTemp}°</div>
+                    </div>
+
+                    <div class="hero-desc">
+                        ${
+                            current.weather.includes("雨")
+                            ? "今天下的不是雨，是樹懶的速度淚 ☔"
+                            : current.weather.includes("晴")
+                            ? "陽光像 Judy 一樣元氣滿滿 ☀️"
+                            : "雲朵正在思考人生中… ☁️"
+                        }
+                    </div>
+
+                    <div class="advice-grid">
+                        <div class="advice-item">
+                            <div class="advice-icon">${advice.rainIcon}</div>
+                            <div class="advice-text">${advice.rainText}</div>
+                            <div style="font-size:0.7rem; color:#666">降雨率 ${current.rain}</div>
+                        </div>
+
+                        <div class="advice-item">
+                            <div class="advice-icon">${advice.clothIcon}</div>
+                            <div class="advice-text">${advice.clothText}</div>
+                            <div style="font-size:0.7rem; color:#666">最高溫 ${current.maxTemp}°</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            /* 稍後預報 */
             const scrollContainer = document.getElementById('futureForecasts');
             scrollContainer.innerHTML = '';
 
-            // 抓今天的日期數字 (例如 24)
             const todayDate = new Date().getDate();
 
             others.forEach(f => {
                 let p = getTimePeriod(f.startTime);
-
-                // 判斷該預報的日期是否跟今天不同，不同就是明天
                 const fDate = new Date(f.startTime);
-                if (fDate.getDate() !== todayDate) {
-                    p = "明天" + p;
-                }
+
+                if (fDate.getDate() !== todayDate) p = "明天" + p;
 
                 scrollContainer.innerHTML += `
-                            <div class="mini-card">
-                                <div class="mini-time">${p}</div>
-                                <div class="mini-icon">${getWeatherIcon(f.weather)}</div>
-                                <div class="mini-temp">${f.minTemp}° - ${f.maxTemp}°</div>
-                                <div style="font-size:0.8rem; color:#888; margin-top:5px;">💧${f.rain}</div>
-                            </div>
-                        `;
+                    <div class="mini-card">
+                        <div class="mini-time">🐾 ${p}（樹懶預測）</div>
+                        <div class="mini-icon">${getWeatherIcon(f.weather)}</div>
+                        <div class="mini-temp">${f.minTemp}° - ${f.maxTemp}°</div>
+                        <div style="font-size:0.8rem; color:#888; margin-top:5px;">💧${f.rain}</div>
+                    </div>
+                `;
             });
 
-            // 3. 右上角顯示今日日期
+            /* 更新時間顯示 */
             const now = new Date();
             const month = now.getMonth() + 1;
             const date = now.getDate();
             const dayIndex = now.getDay();
-            const days = ["週日", "週一", "週二", "週三", "週四", "週五", "週六"];
+            const days = ["週日","週一","週二","週三","週四","週五","週六"];
 
             document.getElementById('updateTime').textContent = `${month}月${date}日 ${days[dayIndex]}`;
+
+            /* 顯示主內容、隱藏 loading */
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'block';
         }
 
         async function fetchWeather() {
             try {
-                // 1. 定義「最低等待時間」：1500 毫秒 (1.5秒)
-                const delayPromise = new Promise(resolve => setTimeout(resolve, 1500));
+                const delay = new Promise(res => setTimeout(res, 1500));
+                const data = fetch(API_URL).then(res => res.json());
+                const [_, json] = await Promise.all([delay, data]);
 
-                // 2. 定義「抓取資料」的工作
-                const fetchPromise = fetch(API_URL).then(res => res.json());
+                if (!json.success) throw new Error("API Error");
+                renderWeather(json.data);
 
-                // 3. Promise.all 會等待「兩個都完成」才會往下走
-                // result 陣列裡，第一個是 delay 的結果(沒用到)，第二個是 api 的 json 資料
-                const [_, json] = await Promise.all([delayPromise, fetchPromise]);
-
-                if (json.success) {
-                    renderWeather(json.data);
-
-                    // 資料處理好後，隱藏 Loading，顯示主畫面
-                    document.getElementById('loading').style.display = 'none';
-                    document.getElementById('mainContent').style.display = 'block';
-                } else {
-                    throw new Error("API Error");
-                }
             } catch (e) {
                 console.error(e);
-                alert("天氣資料讀取失敗，狸克把網路線咬斷了！");
+                alert("天氣資料讀取失敗，樹懶可能不小心按錯按鈕了！");
             }
         }
 
         document.addEventListener("DOMContentLoaded", fetchWeather);
     </script>
-</body>
 
+</body>
 </html>

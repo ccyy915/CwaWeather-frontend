@@ -1,0 +1,40 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景圓 -->
+  <circle cx="256" cy="256" r="240" fill="#A8E6CF"/>
+
+  <!-- 雲 -->
+  <g transform="translate(90,180)">
+    <ellipse cx="160" cy="80" rx="120" ry="60" fill="white"/>
+    <ellipse cx="100" cy="80" rx="70" ry="50" fill="white"/>
+    <ellipse cx="220" cy="80" rx="70" ry="50" fill="white"/>
+    <ellipse cx="160" cy="120" rx="140" ry="50" fill="white"/>
+  </g>
+
+  <!-- 樹懶身體 -->
+  <g transform="translate(150,140)">
+    <ellipse cx="160" cy="170" rx="80" ry="100" fill="#C8A98A"/>
+
+    <!-- 樹懶頭 -->
+    <circle cx="160" cy="80" r="60" fill="#C8A98A"/>
+    <circle cx="160" cy="80" r="48" fill="#E9D7C5"/>
+
+    <!-- 眼睛區塊 -->
+    <ellipse cx="138" cy="80" rx="22" ry="18" fill="#8B6F5A"/>
+    <ellipse cx="182" cy="80" rx="22" ry="18" fill="#8B6F5A"/>
+
+    <!-- 眼睛 -->
+    <circle cx="138" cy="80" r="8" fill="white"/>
+    <circle cx="182" cy="80" r="8" fill="white"/>
+
+    <!-- 嘴巴 -->
+    <path d="M145 110 Q160 125 175 110" stroke="#7A5D48" stroke-width="6" fill="none" stroke-linecap="round"/>
+
+    <!-- 樹懶手抱住雲 -->
+    <ellipse cx="110" cy="180" rx="40" ry="25" fill="#C8A98A"/>
+    <ellipse cx="210" cy="180" rx="40" ry="25" fill="#C8A98A"/>
+
+    <!-- 指甲 -->
+    <path d="M88 175 Q100 190 112 175" stroke="#FFF" stroke-width="6" stroke-linecap="round"/>
+    <path d="M188 175 Q200 190 212 175" stroke="#FFF" stroke-width="6" stroke-linecap="round"/>
+  </g>
+</svg>
